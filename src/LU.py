@@ -9,6 +9,7 @@ class LU:
         self.matrix = matrix
         self.B = vector
         self.L = [[{True:1, False:0}[x==y] for y in range(len(self.matrix))] for x in range(len(self.matrix))]
+    
     def solve(self):
         if not len(self.matrix) == len(self.matrix[0]):
             return
@@ -17,8 +18,11 @@ class LU:
             for row in range(index+1, len(self.matrix)):
                 magic_number = self.matrix[row][index]/pivote
                 self.L[row][index] = magic_number
-                self.matrix[row] = [self.matrix[row][x] - magic_number * self.matrix[index][x] for x in range(len(self.matrix))] 
-
+                self.matrix[row] = [self.matrix[row][x] - magic_number * self.matrix[index][x] for x in range(len(self.matrix))]
+        Linv = np.linalg.inv(np.array(self.L))
+        self.Y = Linv.dot(np.array(self.B))
+        print("the solution is Y = " + str(self.Y))
+        
     def printL(self):
         print("L:")
         for row in self.L:
